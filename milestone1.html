@@ -30,12 +30,37 @@
 
     <p><a href="google-books-book.json">JSON Link</a></p>
 
-    <div id="demo"></div>
+    <div id="thumbnail"></div>
+    <div id="title"></div>
+    <div id="subtitle"></div>
+    <div id="authors"></div>
+    <div id="publisher"></div>
+    <div id="publishedDate"></div>
+    <div id="description"></div>
+    <div id="pageCount"></div>
+    <div id="ISBN10"></div>
+    <div id="ISBN13"></div>
 
     <script>
         $(document).ready(function(){
             $.getJSON("google-books-book.json", function(json){
-                $('#demo').html(json.volumeInfo.title);
+
+                
+
+                //$('#thumbnail').append(json.volumeInfo.imageLinks.thumbnail)
+                $('#title').append(json.volumeInfo.title);
+                $('#subtitle').append(json.volumeInfo.subtitle);
+                $('#authors').append(json.volumeInfo.authors);
+                $('#publisher').append(json.volumeInfo.publisher);
+                $('#publishedDate').append(json.volumeInfo.publishedDate);
+                $('#description').append(json.volumeInfo.description);
+                $('#pageCount').append(json.volumeInfo.pageCount);
+                $('#ISBN10').append(json.volumeInfo.industryIdentifiers[0].type);
+                $('#ISBN10').append(json.volumeInfo.industryIdentifiers[0].identifier);
+                $('#ISBN13').append(json.volumeInfo.industryIdentifiers[1].type);
+                $('#ISBN13').append(json.volumeInfo.industryIdentifiers[1].identifier);
+
+
             });
 
         });
