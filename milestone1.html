@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jason Flores</title>
+
     <link rel = "stylesheet" href = "styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-    <!--Home Page-->
+    <!--Milestone 1 Page-->
 
     <h1>Jason Flores</h1>
     <h2>Kennesaw State University</h2>
@@ -24,9 +26,20 @@
           </ul>
       </table></div>
 
-    <h3>The purpose of this website is to continue to grow it throughout the semester with labs</h3>
-    <p><b>Course info:</b> IT 4403 - Advanced Web and Mobile Application
-        <br><b>Instructor:</b> Professor Pranita Shedage</p>
-    <a href = "https://ccse.kennesaw.edu/it/">Click Here for more KSU IT</a>
+    <h3>Milestone 1</h3>
+
+    <p><a href="google-books-book.json">JSON Link</a></p>
+
+    <div id="demo"></div>
+
+    <script>
+        $(document).ready(function(){
+            $.getJSON("google-books-book.json", function(json){
+                $('#demo').append(json.title);
+            });
+
+        });
+    </script>
+
 </body>
 </html>
