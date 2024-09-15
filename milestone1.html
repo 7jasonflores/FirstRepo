@@ -35,7 +35,7 @@
     <script>
         $(document).ready(function(){
             $.getJSON("google-books-book.json", function(json){
-                $('#demo').append(json.title);
+                $('#demo').html(json.title);
             });
 
         });
