@@ -28,9 +28,9 @@
 
     <h3>Milestone 1</h3>
 
-    <p><a href="google-books-book.json">JSON Link</a></p>
+    <a href="google-books-book.json">JSON Link</a>
 
-    <div id="thumbnail"></div>
+    <div id="Book_Information"></div>
     <div id="title"></div>
     <div id="subtitle"></div>
     <div id="authors"></div>
@@ -40,6 +40,23 @@
     <div id="pageCount"></div>
     <div id="ISBN10"></div>
     <div id="ISBN13"></div>
+
+    <a href="google-books-book.json">JSON Link</a>
+
+    
+    <script>
+        
+    $(document).ready(function () {
+        $.getJSON('https://www.googleapis.com/books/v1/volumes/Wfan6L9RGgYC', function (data) {
+            var bookInformation = `
+                
+                <img src= ${data.volumeInfo.imageLinks.thumbnail} alt="I did not display correctly">
+                
+            `;
+            $('#Book_Information').html(bookInformation);
+        });
+    });
+    </script>
 
     <script>
         $(document).ready(function(){
