@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jason Flores</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <!--Milestone 1 Page-->
+
+    <h1>Jason Flores</h1>
+    <h2>Kennesaw State University</h2>
+
+    <!--navbar-->
+    <div id="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="milestone1.html">Milestone 1</a></li>
+            <li><a href="milestone2.html">Milestone 2</a></li>
+            <li><a href="milestone3.html">Milestone 3</a></li>
+            <li><a href="milestone4.html">Milestone 4</a></li>
+            <li><a href="http://ccse.kennesaw.edu/it">KSU Website</a></li>
+        </ul>
+        </table>
+    </div>
+
+    <h3>Milestone 1</h3>
+
+    <div id="bookList"></div>
+
+    <script>
+        
+        $(document).ready(function () {
+            $.getJSON("google-books-search.json", function (json) {
+                $.each(json.items, function(i, bookData){
+                    $("#bookList").append(
+                        `
+                        <img src= ${bookData.volumeInfo.imageLinks.thumbnail} alt="thumbnail">
+                        <div id="title">${bookData.volumeInfo.title}</div>
+                        <div id="subtitle">${bookData.volumeInfo.subtitle}</div>
+                        <div id="authors">${bookData.volumeInfo.authors.join(", ")}</div>
+                        <div id="punlisher">${bookData.volumeInfo.publisher}</div>
+                        <div id="publishedDate">${bookData.volumeInfo.publishedDate}</div>
+                        <div id="pageCount">${bookData.volumeInfo.pageCount}</div>
+                        <div id="description">${bookData.volumeInfo.description}</div>
+                        <div id="ISBN10">${bookData.volumeInfo.industryIdentifiers[1].type}
+                                            ${bookData.volumeInfo.industryIdentifiers[1].identifier}</div>
+                        <div id="ISBN10">${bookData.volumeInfo.industryIdentifiers[0].type}
+                                            ${bookData.volumeInfo.industryIdentifiers[0].identifier}</div></div>
+                        `
+                    )
+                })
+            });
+        });
+        </script>
+
+
+
+
+
+
+
+</body>
+
+</html>
