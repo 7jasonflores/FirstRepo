@@ -41,3 +41,37 @@ h3{
         background-color: #111;
     }
 }
+
+/*thumbnail*/
+#bookThumbnail{
+    float: left;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+#title{
+    font-style: italic;
+    font-weight: bold;
+    font-size: large;
+
+}
+
+#subtitle{
+    font-style: italic;
+}
+
+#authors{
+    font-style: italic;
+}
+
+#publisher{
+    font-style: italic;
+}
+
+#publishedDate{
+    font-style: italic;
+}
+
+#description{
+
+}
