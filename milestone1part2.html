@@ -40,18 +40,19 @@
                 $.each(json.items, function(i, bookData){
                     $("#bookList").append(
                         `
-                        <img src= ${bookData.volumeInfo.imageLinks.thumbnail} alt="thumbnail">
+                        <img id="bookThumbnail" src= ${bookData.volumeInfo.imageLinks.thumbnail} alt="thumbnail">
                         <div id="title">${bookData.volumeInfo.title}</div>
                         <div id="subtitle">${bookData.volumeInfo.subtitle}</div>
-                        <div id="authors">${bookData.volumeInfo.authors.join(", ")}</div>
-                        <div id="punlisher">${bookData.volumeInfo.publisher}</div>
-                        <div id="publishedDate">${bookData.volumeInfo.publishedDate}</div>
-                        <div id="pageCount">${bookData.volumeInfo.pageCount}</div>
-                        <div id="description">${bookData.volumeInfo.description}</div>
+                        <div id="authors">Author(s): ${bookData.volumeInfo.authors.join(", ")}</div>
+                        <div id="publisher">Publisher: ${bookData.volumeInfo.publisher}</div>
+                        <div id="publishedDate">Publish Date: ${bookData.volumeInfo.publishedDate}</div>
+                        <div id="pageCount">Pages: ${bookData.volumeInfo.pageCount}</div>
                         <div id="ISBN10">${bookData.volumeInfo.industryIdentifiers[1].type}
                                             ${bookData.volumeInfo.industryIdentifiers[1].identifier}</div>
                         <div id="ISBN10">${bookData.volumeInfo.industryIdentifiers[0].type}
                                             ${bookData.volumeInfo.industryIdentifiers[0].identifier}</div></div>
+                        <div id="description">${bookData.volumeInfo.description}</div>
+                        
                         `
                     )
                 })
