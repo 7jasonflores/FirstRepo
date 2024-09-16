@@ -38,9 +38,7 @@
     <p id="pageCount">Pages: </p>
     <div id="ISBN10"></div>
     <div id="ISBN13"></div>
-
-    <!--Line break to lower description-->
-    <p id="description"></p>
+    <p id="descriptionSingleBook"></p>
     
     <button onclick="document.location='milestone1part2.html'">Click for Book List</button>
 
@@ -64,15 +62,13 @@
         $(document).ready(function(){
             $.getJSON("google-books-book.json", function(json){
 
-                
-
                 //$('#thumbnail').append(json.volumeInfo.imageLinks.thumbnail)
                 $('#title').append(json.volumeInfo.title);
                 $('#subtitle').append(json.volumeInfo.subtitle);
                 $('#authors').append(json.volumeInfo.authors);
                 $('#publisher').append(json.volumeInfo.publisher);
                 $('#publishedDate').append(json.volumeInfo.publishedDate);
-                $('#description').append(json.volumeInfo.description);
+                $('#descriptionSingleBook').append(json.volumeInfo.description);
                 $('#pageCount').append(json.volumeInfo.pageCount);
                 $('#ISBN10').append(json.volumeInfo.industryIdentifiers[0].type);
                 $('#ISBN10').append(json.volumeInfo.industryIdentifiers[0].identifier);
