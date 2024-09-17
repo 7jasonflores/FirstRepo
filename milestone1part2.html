@@ -37,6 +37,7 @@
     <!--link to json file-->
     <a href="google-books-search.json"><br><br>JSON Link</a>
 
+
     <!--retrieve json data-->
     <script>
         //use .each() and append all information to div id "bookList"
@@ -57,7 +58,6 @@
                         <div id="ISBN10">${bookData.volumeInfo.industryIdentifiers[0].type}
                                             ${bookData.volumeInfo.industryIdentifiers[0].identifier}</div></div>
                         <div id="description"><br><b>Description</b><br>${bookData.volumeInfo.description}</div>
-                        
                         `
                     )
                 })
