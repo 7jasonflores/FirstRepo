@@ -31,12 +31,15 @@
 
     <h3>Milestone 1</h3>
 
+    <!--displays book list data-->
     <div id="bookList"></div>
 
+    <!--link to json file-->
     <a href="google-books-search.json"><br><br>JSON Link</a>
 
+    <!--retrieve json data-->
     <script>
-        
+        //use .each() and append all information to div id "bookList"
         $(document).ready(function () {
             $.getJSON("google-books-search.json", function (json) {
                 $.each(json.items, function(i, bookData){

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jason Flores</title>
 
-    <link rel = "stylesheet" href = "styles.css">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+
 <body>
     <!--Milestone 1 Page-->
 
@@ -23,12 +25,13 @@
             <li><a href="milestone3.html">Milestone 3</a></li>
             <li><a href="milestone4.html">Milestone 4</a></li>
             <li><a href="http://ccse.kennesaw.edu/it">KSU Website</a></li>
-          </ul>
-      </table></div>
+        </ul>
+        </table>
+    </div>
 
     <h3>Milestone 1</h3>
 
-
+    <!--display for json data-->
     <div id="bookThumbnail"></div>
     <div id="title"></div>
     <div id="subtitle"></div>
@@ -39,29 +42,33 @@
     <div id="ISBN10"></div>
     <div id="ISBN13"></div>
     <p id="descriptionSingleBook"></p>
-    
+
+    <!--button to booklist-->
     <button onclick="document.location='milestone1part2.html'">Click for Book List</button>
 
+    <!--link to json file-->
     <a href="google-books-book.json"><br><br>JSON Link</a>
 
 
 
 
-
+    <!--i struggled to get thumbnail through other script but found this worked-->
+    <!--gets thmbnail-->
     <script>
-        
-    $(document).ready(function () {
-        $.getJSON("google-books-book.json", function (json) {
-            var book_Thumbnail = `<img src= ${json.volumeInfo.imageLinks.thumbnail} alt="thumbnail">`;
-            $('#bookThumbnail').html(book_Thumbnail);
+        $(document).ready(function () {
+            $.getJSON("google-books-book.json", function (json) {
+                var book_Thumbnail = `<img src= ${json.volumeInfo.imageLinks.thumbnail} alt="thumbnail">`;
+                $('#bookThumbnail').html(book_Thumbnail);
+            });
         });
-    });
     </script>
 
+    <!--gets data from jason file appends to id-->
     <script>
-        $(document).ready(function(){
-            $.getJSON("google-books-book.json", function(json){
+        $(document).ready(function () {
+            $.getJSON("google-books-book.json", function (json) {
 
+                //wasnt able to get this to work
                 //$('#thumbnail').append(json.volumeInfo.imageLinks.thumbnail)
                 $('#title').append(json.volumeInfo.title);
                 $('#subtitle').append(json.volumeInfo.subtitle);
@@ -74,12 +81,11 @@
                 $('#ISBN10').append(json.volumeInfo.industryIdentifiers[0].identifier);
                 $('#ISBN13').append(json.volumeInfo.industryIdentifiers[1].type);
                 $('#ISBN13').append(json.volumeInfo.industryIdentifiers[1].identifier);
-
-
             });
 
         });
     </script>
 
 </body>
+
 </html>
