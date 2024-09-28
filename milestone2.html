@@ -30,57 +30,34 @@
 
     <h3>Milestone 2</h3>
 
-    <input type="text" id="searchTerm" placeholder="Enter search terms" />
-    <button id="searchButton">Search</button>
-
+    <input id="search" placeholder="Search Book">
+    <button id="button" type="button">Search</button>
     <div id="results"></div>
 
-    <!--Test-->
-    <div id="div1"><h2>Let jQuery AJAX Change This Text</h2></div>
-
-    <button>Get External Content</button>
 
     <script>
+        function bookSearch(){
+            var search = document.getElementById('search').value
+            document.getElementById('results').innerHTML = ""
+            console.log(search)
 
-        $(document).ready(function () {
-            $("button").click(function () {
-                $.ajax({
-                    url: "demo_test.txt", success: function (result) {
-                        $("#div1").html(result);
-                    }
-                });
+            $.ajax({
+                url: "https://www.googleapis.com/books/v1/volumes?q=" + search,
+                dataType: "json",
+
+                success: function(data){
+                    console.log(data)
+                },
+
+                type: 'GET'
+
             });
-        });
 
+        }
 
+        document.getElementById('button').addEventListener('click', bookSearch, false)
 
     </script>
-
-    <!--<script>
-        //use .each() and append all information to div id "bookList"
-        $(document).ready(function () {
-            $.getJSON("google-books-search.json", function (json) {
-                $.each(json.items, function(i, bookData){
-                    $("#bookList").append(
-                        `
-                        <img id="bookThumbnail" src= ${bookData.volumeInfo.imageLinks.thumbnail} alt="thumbnail">
-                        <div id="title">${bookData.volumeInfo.title}</div>
-                        <div id="subtitle">${bookData.volumeInfo.subtitle}</div>
-                        <div id="authors">Author(s): ${bookData.volumeInfo.authors.join(", ")}</div>
-                        <div id="publisher">Publisher: ${bookData.volumeInfo.publisher}</div>
-                        <div id="publishedDate">Publish Date: ${bookData.volumeInfo.publishedDate}</div>
-                        <div id="pageCount">Pages: ${bookData.volumeInfo.pageCount}</div>
-                        <div id="ISBN10">${bookData.volumeInfo.industryIdentifiers[1].type}
-                                            ${bookData.volumeInfo.industryIdentifiers[1].identifier}</div>
-                        <div id="ISBN10">${bookData.volumeInfo.industryIdentifiers[0].type}
-                                            ${bookData.volumeInfo.industryIdentifiers[0].identifier}</div></div>
-                        <div id="description"><br><b>Description</b><br>${bookData.volumeInfo.description}</div>
-                        `
-                    )
-                })
-            });
-        });
-        </script>-->
 
 </body>
 
