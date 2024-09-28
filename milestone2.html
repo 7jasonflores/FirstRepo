@@ -36,7 +36,7 @@
 
 
     <script>
-        function bookSearch(){
+        function bookSearch() {
             var search = document.getElementById('search').value
             document.getElementById('results').innerHTML = ""
             console.log(search)
@@ -45,8 +45,17 @@
                 url: "https://www.googleapis.com/books/v1/volumes?q=" + search,
                 dataType: "json",
 
-                success: function(data){
-                    console.log(data)
+                success: function (data) {
+                    for (i in data.items) {
+                        results.innerHTML += "<h4 id='M2Titles'>" + data.items[i].volumeInfo.title + "<h4>"
+
+                        var cover = "";
+                        if (data.items[i].volumeInfo.imageLinks != null)
+                            cover = data.items[i].volumeInfo.imageLinks.smallThumbnail;
+
+                        results.innerHTML +="<img src='"+cover+"' style='float: center' />";
+
+                    }
                 },
 
                 type: 'GET'
