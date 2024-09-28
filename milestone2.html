@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jason Flores</title>
-    <link rel = "stylesheet" href = "styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+
 <body>
     <!--Milestone 2 Page-->
 
@@ -21,9 +24,64 @@
             <li><a href="milestone3.html">Milestone 3</a></li>
             <li><a href="milestone4.html">Milestone 4</a></li>
             <li><a href="http://ccse.kennesaw.edu/it">KSU Website</a></li>
-          </ul>
-      </table></div>
+        </ul>
+        </table>
+    </div>
 
     <h3>Milestone 2</h3>
+
+    <input type="text" id="searchTerm" placeholder="Enter search terms" />
+    <button id="searchButton">Search</button>
+
+    <div id="results"></div>
+
+    <!--Test-->
+    <div id="div1"><h2>Let jQuery AJAX Change This Text</h2></div>
+
+    <button>Get External Content</button>
+
+    <script>
+
+        $(document).ready(function () {
+            $("button").click(function () {
+                $.ajax({
+                    url: "demo_test.txt", success: function (result) {
+                        $("#div1").html(result);
+                    }
+                });
+            });
+        });
+
+
+
+    </script>
+
+    <!--<script>
+        //use .each() and append all information to div id "bookList"
+        $(document).ready(function () {
+            $.getJSON("google-books-search.json", function (json) {
+                $.each(json.items, function(i, bookData){
+                    $("#bookList").append(
+                        `
+                        <img id="bookThumbnail" src= ${bookData.volumeInfo.imageLinks.thumbnail} alt="thumbnail">
+                        <div id="title">${bookData.volumeInfo.title}</div>
+                        <div id="subtitle">${bookData.volumeInfo.subtitle}</div>
+                        <div id="authors">Author(s): ${bookData.volumeInfo.authors.join(", ")}</div>
+                        <div id="publisher">Publisher: ${bookData.volumeInfo.publisher}</div>
+                        <div id="publishedDate">Publish Date: ${bookData.volumeInfo.publishedDate}</div>
+                        <div id="pageCount">Pages: ${bookData.volumeInfo.pageCount}</div>
+                        <div id="ISBN10">${bookData.volumeInfo.industryIdentifiers[1].type}
+                                            ${bookData.volumeInfo.industryIdentifiers[1].identifier}</div>
+                        <div id="ISBN10">${bookData.volumeInfo.industryIdentifiers[0].type}
+                                            ${bookData.volumeInfo.industryIdentifiers[0].identifier}</div></div>
+                        <div id="description"><br><b>Description</b><br>${bookData.volumeInfo.description}</div>
+                        `
+                    )
+                })
+            });
+        });
+        </script>-->
+
 </body>
+
 </html>
