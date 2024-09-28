@@ -46,17 +46,25 @@
                 dataType: "json",
 
                 success: function (data) {
-                    for (i in data.items) {
-                        results.innerHTML += "<h4 id='M2Titles'>" + data.items[i].volumeInfo.title + "<h4>"
+                    if (data.items) {
+                        data.items.forEach(function (item) {
+                            var title = item.volumeInfo.title;
+                            var cover = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : 'default-image-url.jpg'; // Provide a default image
+                            var bookId = item.id; // Get the book ID
 
-                        var cover = "";
-                        if (data.items[i].volumeInfo.imageLinks != null)
-                            cover = data.items[i].volumeInfo.imageLinks.smallThumbnail;
-
-                        results.innerHTML +="<img src='"+cover+"' style='float: center' />";
-
+                            // Create a link for the book title
+                            document.getElementById('results').innerHTML += `
+                <a href="milestone2BookDetails.html?id=${bookId}" style="text-decoration: none; color: inherit;">
+                    <h4 id='M2Titles'>${title}</h4>
+                </a>
+                <img src='${cover}' alt='${title} cover' style='display: block; margin: auto;' />
+            `;
+                        });
+                    } else {
+                        document.getElementById('results').innerHTML = "<p>No results found.</p>";
                     }
-                },
+                }
+                ,
 
                 type: 'GET'
 

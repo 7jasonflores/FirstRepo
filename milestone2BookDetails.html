@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Detail</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+<h1>Book Detail</h1>
+<div id="bookDetails"></div>
+
+<script>
+    function getBookDetails() {
+        const params = new URLSearchParams(window.location.search);
+        const bookId = params.get('id');
+
+        $.ajax({
+            url: `https://www.googleapis.com/books/v1/volumes/${bookId}`,
+            dataType: "json",
+            success: function(data) {
+                if (data) {
+                    const title = data.volumeInfo.title;
+                    const authors = data.volumeInfo.authors ? data.volumeInfo.authors.join(', ') : 'Unknown Author';
+                    const description = data.volumeInfo.description || 'No description available.';
+                    const cover = data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : 'default-image-url.jpg';
+
+                    document.getElementById('bookDetails').innerHTML = `
+                        <h2>${title}</h2>
+                        <h4>By: ${authors}</h4>
+                        <img src='${cover}' alt='${title} cover' />
+                        <p>${description}</p>
+                    `;
+                } else {
+                    document.getElementById('bookDetails').innerHTML = "<p>No details available for this book.</p>";
+                }
+            },
+            error: function() {
+                document.getElementById('bookDetails').innerHTML = "<p>Error fetching book details. Please try again.</p>";
+            }
+        });
+    }
+
+    window.onload = getBookDetails;
+</script>
+
+</body>
+</html>
