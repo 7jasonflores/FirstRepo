@@ -48,12 +48,14 @@
                     var description = json.volumeInfo.description || 'No description available.';
                     var cover = json.volumeInfo.imageLinks ? json.volumeInfo.imageLinks.thumbnail : 'default-image-url.jpg';
                     var pageCount = json.volumeInfo.pageCount;
+                    var price = json.saleInfo.listPrice.amount || 'No price';
 
                     document.getElementById('bookDetails').innerHTML = `
                         <h2 id='bookDetailTitle'><i>${title}</i></h2>
                         <h4>By: <i>${authors}</i></h4>
                         <img src='${cover}' alt='${title} cover' />
                         <p><strong>Page count: ${pageCount}</strong></p>
+                        <p><strong>Page count: $${price}</strong></p>
                         <p><strong><u>Description</u></strong><br>${description}</p>
                     `;
                 } 
