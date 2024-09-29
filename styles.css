@@ -81,4 +81,9 @@ h3{
 
 #M2Titles{
     border-top: solid;
+    text-align: center;
+}
+
+#bookDetailTitle{
+    text-align: left;
 }

@@ -45,22 +45,23 @@
                 url: "https://www.googleapis.com/books/v1/volumes?q=" + search + "&startIndex=30&maxResults=40",
                 dataType: "json",
 
-                success: function (data) {
-                    if (data.items) {
-                        data.items.forEach(function (item) {
+                success: function (json) {
+                    if (json.items) {
+                        json.items.forEach(function (item) {
                             var title = item.volumeInfo.title;
                             var cover = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : 'default-image-url.jpg'; // Provide a default image
                             var bookId = item.id; // Get the book ID
 
                             // Create a link for the book title
                             document.getElementById('results').innerHTML += `
-                <a href="milestone2BookDetails.html?id=${bookId}" style="text-decoration: none; color: inherit;">
-                    <h4 id='M2Titles'>${title}</h4>
-                </a>
-                <img src='${cover}' alt='${title} cover' style='display: block; margin: auto;' />
-            `;
+                            <a href="milestone2BookDetails.html?id=${bookId}" style="text-decoration: none; color: inherit;">
+                            <h4 id='M2Titles'>${title}</h4>
+                            </a>
+                            <img src='${cover}' alt='${title} cover' style='display: block; margin: auto;' />
+                            `;
                         });
-                    } else {
+                    }
+                    else {
                         document.getElementById('results').innerHTML = "<p>No results found.</p>";
                     }
                 }

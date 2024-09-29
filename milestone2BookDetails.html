@@ -33,26 +33,31 @@
 
 <script>
     function getBookDetails() {
-        const params = new URLSearchParams(window.location.search);
-        const bookId = params.get('id');
+        var params = new URLSearchParams(window.location.search);
+        var bookId = params.get('id');
 
         $.ajax({
             url: `https://www.googleapis.com/books/v1/volumes/${bookId}`,
             dataType: "json",
-            success: function(data) {
-                if (data) {
-                    const title = data.volumeInfo.title;
-                    const authors = data.volumeInfo.authors ? data.volumeInfo.authors.join(', ') : 'Unknown Author';
-                    const description = data.volumeInfo.description || 'No description available.';
-                    const cover = data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : 'default-image-url.jpg';
+            success: function(json) {
+                console.log(json); // Log the JSON response to the console
+
+                if (json) {
+                    var title = json.volumeInfo.title;
+                    var authors = json.volumeInfo.authors ? json.volumeInfo.authors.join(', ') : 'Unknown Author';
+                    var description = json.volumeInfo.description || 'No description available.';
+                    var cover = json.volumeInfo.imageLinks ? json.volumeInfo.imageLinks.thumbnail : 'default-image-url.jpg';
+                    var pageCount = json.volumeInfo.pageCount;
 
                     document.getElementById('bookDetails').innerHTML = `
-                        <h2>${title}</h2>
-                        <h4>By: ${authors}</h4>
+                        <h2 id='bookDetailTitle'><i>${title}</i></h2>
+                        <h4>By: <i>${authors}</i></h4>
                         <img src='${cover}' alt='${title} cover' />
-                        <p>${description}</p>
+                        <p><strong>Page count: ${pageCount}</strong></p>
+                        <p><strong><u>Description</u></strong><br>${description}</p>
                     `;
-                } else {
+                } 
+                else {
                     document.getElementById('bookDetails').innerHTML = "<p>No details available for this book.</p>";
                 }
             },
