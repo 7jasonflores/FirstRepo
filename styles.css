@@ -87,3 +87,17 @@ h3{
 #bookDetailTitle{
     text-align: left;
 }
+
+#bookshelf_title{
+    text-align: center;
+}
+
+#bookshelfTitles{
+    text-align: left;
+    font-style: italic;
+}
+
+#bookshelfAuthors{
+    text-align: left;
+    font-style: italic;
+}

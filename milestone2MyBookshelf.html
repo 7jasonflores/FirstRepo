@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jason Flores</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <!--Milestone 2 Page-->
+
+    <h1>Jason Flores</h1>
+    <h2>Kennesaw State University</h2>
+
+    <!--navbar-->
+    <div id="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="milestone1.html">Milestone 1</a></li>
+            <li><a href="milestone2.html">Milestone 2</a></li>
+            <li><a href="milestone3.html">Milestone 3</a></li>
+            <li><a href="milestone4.html">Milestone 4</a></li>
+            <li><a href="http://ccse.kennesaw.edu/it">KSU Website</a></li>
+        </ul>
+        </table>
+    </div>
+
+    <h3>Milestone 2</h3>
+    <h4 id="bookshelf_title">My Bookshelf</h4>
+    <div id="bookshelf"></div>
+    
+    <script>
+        $(document).ready(function(){
+            var userID = '106681581407884360815';
+            var shelfID = '1002';
+            var apiKey = 'AIzaSyDZTaCn4W3uN9pmwdWs4YXRZjn1SqRSiJI';
+
+            $.ajax({
+                url: `https://www.googleapis.com/books/v1/users/${userID}/bookshelves/${shelfID}/volumes?key=${apiKey}`,
+                dataType: "json",
+                success: function (json) {
+                    if (json.items) {
+                        json.items.forEach(function (item) {
+                            var title = item.volumeInfo.title;
+                            var cover = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : 'default-image-url.jpg'; 
+                            var authors = item.volumeInfo.authors;
+                            var bookId = item.id; 
+
+                            // Create a link for the book title
+                            document.getElementById('bookshelf').innerHTML += `
+                            <a href="milestone2BookDetails.html?id=${bookId}" style="text-decoration: none; color: inherit;">
+                            <h4 id='M2Titles'><i>${title}</i></h4>
+                            </a>
+                            <p style="text-align: center;"">By: <i>${authors}</i></p>
+                            <img src='${cover}' alt='${title} cover' style='display: block; margin: auto;' />
+                            `;
+                        });
+                    }
+                    else {
+                        document.getElementById('bookshelf').innerHTML = "<p>No results found.</p>";
+                    }
+                }
+                ,
+                type: 'GET'
+            });
+        });
+    </script>
+
+</body>
+
+</html>
