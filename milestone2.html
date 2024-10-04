@@ -30,6 +30,7 @@
 
     <h3>Milestone 2</h3>
 
+    <!--Displays and clickables-->
     <input id="search" placeholder="Search Book">
     <button id="button" type="button">Search</button>
     <button onclick="document.location='milestone2MyBookshelf.html'">Click for My Book Shelf</button>
@@ -42,6 +43,7 @@
             document.getElementById('results').innerHTML = ""
             console.log(search)
 
+            //Used ajax since I am a bit familiar with it
             $.ajax({
                 url: "https://www.googleapis.com/books/v1/volumes?q=" + search + "&startIndex=30&maxResults=40",
                 dataType: "json",
@@ -51,9 +53,9 @@
                         json.items.forEach(function (item) {
                             var title = item.volumeInfo.title;
                             var cover = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : 'default-image-url.jpg'; // Provide a default image
-                            var bookId = item.id; // Get the book ID
+                            var bookId = item.id; // Get the book ID for detail book page
 
-                            // Create a link for the book title
+                            // Create a link for the book title and book displays
                             document.getElementById('results').innerHTML += `
                             <a href="milestone2BookDetails.html?id=${bookId}" style="text-decoration: none; color: inherit;">
                             <h4 id='M2Titles'>${title}</h4>

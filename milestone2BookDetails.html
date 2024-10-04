@@ -28,10 +28,12 @@
    
        <h3>Milestone 2</h3>
 
+       <!--Display-->
 <h1>Book Detail</h1>
 <div id="bookDetails"></div>
 
 <script>
+    //uses book ID from [revious page to request correct data
     function getBookDetails() {
         var params = new URLSearchParams(window.location.search);
         var bookId = params.get('id');
@@ -40,8 +42,9 @@
             url: `https://www.googleapis.com/books/v1/volumes/${bookId}`,
             dataType: "json",
             success: function(json) {
-                console.log(json); // Log the JSON response to the console
+                console.log(json); //gives json data in console, helped me read the json
 
+                //getting data
                 if (json) {
                     var title = json.volumeInfo.title;
                     var authors = json.volumeInfo.authors ? json.volumeInfo.authors.join(', ') : 'Unknown Author';
@@ -50,6 +53,7 @@
                     var pageCount = json.volumeInfo.pageCount;
                     var price = json.saleInfo.listPrice.amount || 'No price';
 
+                    //creating display
                     document.getElementById('bookDetails').innerHTML = `
                         <h2 id='bookDetailTitle'><i>${title}</i></h2>
                         <h4>By: <i>${authors}</i></h4>

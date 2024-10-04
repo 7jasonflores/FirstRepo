@@ -29,10 +29,12 @@
     </div>
 
     <h3>Milestone 2</h3>
+    <!--Display-->
     <h4 id="bookshelf_title">My Bookshelf</h4>
     <div id="bookshelf"></div>
     
     <script>
+        //API key to access personal bookshelf
         $(document).ready(function(){
             var userID = '106681581407884360815';
             var shelfID = '1002';
@@ -49,7 +51,7 @@
                             var authors = item.volumeInfo.authors;
                             var bookId = item.id; 
 
-                            // Create a link for the book title
+                            // Creating displays
                             document.getElementById('bookshelf').innerHTML += `
                             <a href="milestone2BookDetails.html?id=${bookId}" style="text-decoration: none; color: inherit;">
                             <h4 id='M2Titles'><i>${title}</i></h4>
