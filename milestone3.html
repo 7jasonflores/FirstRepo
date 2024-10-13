@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jason Flores</title>
-    <link rel = "stylesheet" href = "styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+
 <body>
-    <!--Milestone 3 Page-->
+    <header>
+        <h1>Jason Flores</h1>
+        <h2>Kennesaw State University</h2>
+    </header>
 
-    <h1>Jason Flores</h1>
-    <h2>Kennesaw State University</h2>
-
-    <!--navbar-->
-    <div id="navbar">
+    <nav id="navbar">
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="milestone1.html">Milestone 1</a></li>
@@ -21,9 +23,87 @@
             <li><a href="milestone3.html">Milestone 3</a></li>
             <li><a href="milestone4.html">Milestone 4</a></li>
             <li><a href="http://ccse.kennesaw.edu/it">KSU Website</a></li>
-          </ul>
-      </table></div>
+        </ul>
+    </nav>
 
-    <h3>Milestone 3</h3>
+        <h3>Milestone 3</h3>
+
+        <!--recycled code from milestone 2-->
+        <input id="search" placeholder="Search Book">
+        <button id="button" type="button">Search</button>
+        <button onclick="document.location='milestone2MyBookshelf.html'">My Book Shelf</button>
+        <div id="results"></div>
+        
+        <!--pagination-->
+        <div id="pagination"></div> 
+        <div id="loading" style="display: none;">Loading...</div> 
+    
+
+    <script>
+        var currentPage = 1;
+        var totalPages = 0;
+        var totalItems = 0;
+        var resultsPerPage = 10; 
+        var maxResults = 50; 
+
+        //function uses ajax to retrieve book data, used some code from previous milestone
+        function bookSearch(page = 1) {
+            var search = document.getElementById('search').value;
+            document.getElementById('results').innerHTML = "";
+            document.getElementById('pagination').innerHTML = ""; 
+            document.getElementById('loading').style.display = "block";
+            currentPage = page;
+
+            $.ajax({
+                url: `https://www.googleapis.com/books/v1/volumes?q=${search}&startIndex=${(currentPage - 1) * resultsPerPage}&maxResults=${Math.min(resultsPerPage, maxResults - ((currentPage - 1) * resultsPerPage))}`,
+                dataType: "json",
+                success: function (json) {
+                    document.getElementById('loading').style.display = "none"; //hides loading once data displays
+                    if (json.items) {
+                        totalItems = Math.min(json.totalItems, maxResults); //total items retrives
+                        totalPages = Math.ceil(totalItems / resultsPerPage); //total items per page
+
+                        json.items.forEach(function (item) {
+                            var title = item.volumeInfo.title;
+                            var cover = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : 'default-image-url.jpg';
+                            var bookId = item.id; // book ID for detail book page
+
+                            //gets info for the results displays
+                            document.getElementById('results').innerHTML += `
+                            <a href="milestone2BookDetails.html?id=${bookId}" style="text-decoration: none; color: inherit;">
+                                <h4 id='M2Titles'>${title}</h4>
+                            </a>
+                            <img src='${cover}' alt='${title} cover' style='display: block; margin: auto;' />
+                            `;
+                        });
+                        updatePagination();
+                    } else {
+                        document.getElementById('results').innerHTML = "<p>No results found.</p>";
+                    }
+                },
+                error: function () {
+                    document.getElementById('loading').style.display = "none"; //hides loading if error displayed
+                    document.getElementById('results').innerHTML = "<p>Error fetching data.</p>";
+                },
+                type: 'GET'
+            });
+        }
+
+        //pagination function
+        function updatePagination() {
+            var paginationHtml = '';
+            for (var i = 1; i <= totalPages; i++) {
+                paginationHtml += `<button onclick="bookSearch(${i})">${i}</button> `;
+            }
+            document.getElementById('pagination').innerHTML = paginationHtml;
+
+            //displays current page
+            document.getElementById('pagination').innerHTML += `<p>Page ${currentPage} of ${totalPages}</p>`;
+        }
+
+        document.getElementById('button').addEventListener('click', () => bookSearch(1), false);
+    </script>
+    
 </body>
+
 </html>
