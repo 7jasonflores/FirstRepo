@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jason Flores</title>
-    <link rel = "stylesheet" href = "styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
 </head>
+
 <body>
-    <!--Milestone 4 Page-->
+    <!-- i really enjoyed this project, learned alot, many trial and error lessons
+     Thank you for the semester! -->
 
-    <h1>Jason Flores</h1>
-    <h2>Kennesaw State University</h2>
+    <header>
+        <h1>Jason Flores</h1>
+        <h2>Kennesaw State University</h2>
+    </header>
 
-    <!--navbar-->
-    <div id="navbar">
+    <nav id="navbar">
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="milestone1.html">Milestone 1</a></li>
@@ -21,9 +27,153 @@
             <li><a href="milestone3.html">Milestone 3</a></li>
             <li><a href="milestone4.html">Milestone 4</a></li>
             <li><a href="http://ccse.kennesaw.edu/it">KSU Website</a></li>
-          </ul>
-      </table></div>
+        </ul>
+    </nav>
 
     <h3>Milestone 4</h3>
+
+    <!--recycled code-->
+    <div>
+        <input id="search" placeholder="Search Book">
+        <button id="button" type="button">Search</button>
+        <button onclick="document.location='milestone2MyBookshelf.html'">My Book Shelf</button>
+        <div id="results"></div>
+    </div>
+
+    <!--pagination-->
+    <div id="pagination"></div>
+    <div id="loading" style="display: none;">Loading...</div>
+
+    <!-- different view buttons -->
+    <button id="gridViewButton">Grid View</button>
+    <button id="listViewButton">List View</button>
+
+    <!-- display search history -->
+    <h4>Search History</h4>
+    <ul id="searchHistory"></ul>
+
+    <script id="book-template" type="text/template">
+        {{#books}}
+        <div class="book-item">
+            <a href="milestone2BookDetails.html?id={{id}}" class="book-link">
+                <img src="{{cover}}" alt="{{title}} cover">
+                <h4>{{title}}</h4>
+            </a>
+        </div>
+        {{/books}}
+    </script>
+
+    <script>
+        var currentPage = 1;
+        var totalPages = 0;
+        var totalItems = 0;
+        var resultsPerPage = 10;
+        var maxResults = 50;
+        var searchHistory = [];
+
+        // search history
+        if (localStorage.getItem('searchHistory')) {
+            searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
+            updateSearchHistory();
+        }
+
+        //recycled and made some edits
+        //function uses ajax to retrieve book data, used some code from previous milestone
+        function bookSearch(page = 1) {
+            var search = document.getElementById('search').value;
+            document.getElementById('results').innerHTML = "";
+            document.getElementById('pagination').innerHTML = "";
+            document.getElementById('loading').style.display = "block";
+            currentPage = page;
+
+            $.ajax({
+                url: `https://www.googleapis.com/books/v1/volumes?q=${search}&startIndex=${(currentPage - 1) * resultsPerPage}&maxResults=${Math.min(resultsPerPage, maxResults - ((currentPage - 1) * resultsPerPage))}`,
+                dataType: "json",
+                success: function (json) {
+                    document.getElementById('loading').style.display = "none";//hides loading once data displays
+                    if (json.items) {
+                        totalItems = Math.min(json.totalItems, maxResults); //total items retrives
+                        totalPages = Math.ceil(totalItems / resultsPerPage); //total items per page
+
+                        // data return for template
+                        var books = json.items.map(function (item) {
+                            return {
+                                title: item.volumeInfo.title,
+                                cover: item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : 'default-image-url.jpg',
+                                id: item.id
+                            };
+                        });
+
+                        // get data to display using moustache template
+                        var template = document.getElementById('book-template').innerHTML;
+                        var rendered = Mustache.render(template, { books: books });
+                        document.getElementById('results').innerHTML = rendered;
+
+                        updatePagination();
+                        updateSearchHistory(search);
+                    } else {
+                        document.getElementById('results').innerHTML = "<p>No results found.</p>";
+                    }
+                },
+                error: function () {
+                    document.getElementById('loading').style.display = "none"; //hides loading if error displayed
+                    document.getElementById('results').innerHTML = "<p>Error fetching data.</p>";
+                },
+                type: 'GET'
+            });
+        }
+
+        //recycled
+        // pagination function
+        function updatePagination() {
+            var paginationHtml = '';
+            for (var i = 1; i <= totalPages; i++) {
+                paginationHtml += `<button onclick="bookSearch(${i})">${i}</button> `;
+            }
+            document.getElementById('pagination').innerHTML = paginationHtml;
+            document.getElementById('pagination').innerHTML += `<p>Page ${currentPage} of ${totalPages}</p>`;
+        }
+
+        // update search history
+        function updateSearchHistory(searchTerm) {
+            if (searchTerm && !searchHistory.includes(searchTerm)) {
+                searchHistory.unshift(searchTerm); // add search term into array
+
+                // once search history exceeds 10 remove 1
+                if (searchHistory.length > 10) {
+                    searchHistory.pop();
+                }
+                localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+            }
+
+            // display search history
+            var historyHtml = '';
+            searchHistory.forEach(function (term) {
+                historyHtml += `<li><a href="#" onclick="reperformSearch('${term}')">${term}</a></li>`;
+            });
+            document.getElementById('searchHistory').innerHTML = historyHtml;
+        }
+
+        // search again if clicked
+        function reperformSearch(searchTerm) {
+            document.getElementById('search').value = searchTerm;
+            bookSearch(1);
+        }
+
+        // view change buttons
+        $(document).ready(function () {
+            $('#gridViewButton').click(function () {
+                $('#results').addClass('grid-view').removeClass('list-view');
+            });
+
+            $('#listViewButton').click(function () {
+                $('#results').addClass('list-view').removeClass('grid-view');
+            });
+        });
+
+        document.getElementById('button').addEventListener('click', () => bookSearch(1), false);
+        document.getElementById('myBookshelfButton').addEventListener('click', () => alert("Public Bookshelf feature coming soon!"), false);
+    </script>
 </body>
+
 </html>
